@@ -7,15 +7,21 @@ import axios from 'axios';
 import Product from '../components/Product';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
+import { getError } from '../utils';
+import {
+  FETCH_FAIL,
+  FETCH_REQUEST,
+  FETCH_SUCCESS,
+} from '../components/Request';
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'FETCH_REQUEST':
+    case FETCH_REQUEST:
       return { ...state, loading: true };
-    case 'FETCH_SUCCESS':
+    case FETCH_SUCCESS:
       return { ...state, products: action.payload, loading: false };
-    case 'FETCH_FAIL':
-      return { ...state, loading: false, error: action.payloadS };
+    case FETCH_FAIL:
+      return { ...state, loading: false, error: action.payload };
     default:
       return state;
   }
@@ -29,12 +35,12 @@ function HomeScreen() {
 
   useEffect(() => {
     const fetchData = async () => {
-      dispatch({ type: 'FETCH_REQUEST' });
+      dispatch({ type: FETCH_REQUEST });
       try {
         const result = await axios.get('/api/products');
-        dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
+        dispatch({ type: FETCH_SUCCESS, payload: result.data });
       } catch (err) {
-        dispatch({ type: 'FETCH_FAIL', payload: err.message });
+        dispatch({ type: FETCH_FAIL, payload: getError(err) });
       }
     };
     fetchData();

@@ -1,15 +1,24 @@
 import axios from 'axios';
-import React, { useEffect, useReducer } from 'react';
+import React, { useContext, useEffect, useReducer } from 'react';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Card from 'react-bootstrap/Card';
 import Badge from 'react-bootstrap/Badge';
 import ListGroup from 'react-bootstrap/ListGroup';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Rating from '../components/Rating';
 import Button from 'react-bootstrap/Button';
 import { Helmet } from 'react-helmet-async';
 import LoadingBox from '../components/LoadingBox';
+import MessageBox from '../components/MessageBox';
+import { getError } from '../utils';
+import {
+  CARD_ADD_ITEM,
+  FETCH_FAIL,
+  FETCH_REQUEST,
+  FETCH_SUCCESS,
+} from '../components/Request';
+import { Store } from '../Store';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -18,13 +27,14 @@ const reducer = (state, action) => {
     case 'FETCH_SUCCESS':
       return { ...state, product: action.payload, loading: false };
     case 'FETCH_FAIL':
-      return { ...state, loading: false, error: action.payloadS };
+      return { ...state, loading: false, error: action.payload };
     default:
       return state;
   }
 };
 
 function ProductScreen() {
+  const navigate = useNavigate();
   const params = useParams();
   const { slug } = params;
 
@@ -36,21 +46,35 @@ function ProductScreen() {
 
   useEffect(() => {
     const fetchData = async () => {
-      dispatch({ type: 'FETCH_REQUEST' });
+      dispatch({ type: FETCH_REQUEST });
       try {
         const result = await axios.get(`/api/products/slug/${slug}`);
-        dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
+        dispatch({ type: FETCH_SUCCESS, payload: result.data });
       } catch (err) {
-        dispatch({ type: 'FETCH_FAIL', payload: err.message });
+        dispatch({ type: FETCH_FAIL, payload: getError(err) });
       }
     };
     fetchData();
   }, [slug]);
 
+  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const { panier } = state;
+  const addToCartHandler = async () => {
+    const existItem = panier.eltPanier.find((elt) => elt._id === product._id);
+    const quantity = existItem ? existItem.quantity + 1 : 1;
+    const { data } = await axios.get(`/api/products/${product._id}`);
+
+    if (data.countInStock < quantity) {
+      window.alert('Desole, Produit plus disponible en stock');
+      return;
+    }
+    ctxDispatch({ type: CARD_ADD_ITEM, payload: { ...product, quantity } });
+    navigate('/panier');
+  };
   return loading ? (
     <LoadingBox />
   ) : error ? (
-    <div>{error}</div>
+    <MessageBox variant="danger">{error}</MessageBox>
   ) : (
     <div>
       <Row>
@@ -100,7 +124,9 @@ function ProductScreen() {
                 {product.countInStock > 0 && (
                   <ListGroup.Item>
                     <div className="d-grid">
-                      <Button variant="primary">ajouter au Panier</Button>
+                      <Button onClick={addToCartHandler} variant="primary">
+                        ajouter au Panier
+                      </Button>
                     </div>
                   </ListGroup.Item>
                 )}

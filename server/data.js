@@ -1,6 +1,7 @@
 const data = {
   products: [
     {
+      _id: '1',
       name: 'Nike slime Shirt',
       slug: 'nike-slime-shirt',
       category: 'Shirts',
@@ -13,6 +14,7 @@ const data = {
       description: 'high quality product',
     },
     {
+      _id: '2',
       name: 'Puma slime Shirt',
       slug: 'puma-slime-shirt',
       category: 'Shirts',
@@ -25,6 +27,7 @@ const data = {
       description: 'high quality product',
     },
     {
+      _id: '3',
       name: 'Adidas slime Shirt',
       slug: 'adidas-slime-shirt',
       category: 'Shirts',
@@ -37,6 +40,7 @@ const data = {
       description: 'high quality product',
     },
     {
+      _id: '4',
       name: 'Esprit slime Shirt',
       slug: 'esprit-slime-shirt',
       category: 'Shirts',
