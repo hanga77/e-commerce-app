@@ -1,6 +1,6 @@
-import express from 'express';
 import data from '../data.js';
 import Product from '../Models/productModels.js';
+import User from '../Models/userModels.js';
 
 export const getProduct = async (req, res) => {
   const product = await Product.findOne({ slug: req.params.slug });
@@ -26,9 +26,8 @@ export const getAllProducts = async (req, res) => {
 };
 
 export const creatProducts = async (req, res) => {
-  Product.remove({});
+  await Product.remove({});
   const createdProducts = await Product.insertMany(data.products);
-  User.remove({});
   const createdUsers = await User.insertMany(data.users);
   res.send({ createdProducts, createdUsers });
 };

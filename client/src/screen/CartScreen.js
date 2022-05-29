@@ -62,7 +62,7 @@ export default function CartScreen() {
                       />{' '}
                       <Link to={`/product/${elts.slug}`}> {elts.name}</Link>
                     </Col>
-                    <Col md={4}>
+                    <Col md={3}>
                       <Button
                         variant="light"
                         onClick={() =>
