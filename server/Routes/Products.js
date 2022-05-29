@@ -5,10 +5,10 @@ import {
   getProduct,
 } from '../Controllers/Products.js';
 
-const router = express.Router();
+const productRouter = express.Router();
 
-router.get('/slug/:slug', getProduct);
-router.get('/:id', buyProduct);
-router.get('/', getAllProducts);
+productRouter.get('/slug/:slug', getProduct);
+productRouter.get('/:id', buyProduct);
+productRouter.get('/', getAllProducts);
 
-export default router;
+export default productRouter;

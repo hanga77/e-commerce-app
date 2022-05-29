@@ -9,6 +9,7 @@ import Badge from 'react-bootstrap/Badge';
 import Nav from 'react-bootstrap/Nav';
 import { Store } from './Store';
 import CartScreen from './screen/CartScreen';
+import SigninScreen from './screen/SigninScreen';
 
 function App() {
   const { state } = useContext(Store);
@@ -23,7 +24,7 @@ function App() {
                 <Navbar.Brand>Shopping Camerounais</Navbar.Brand>
               </LinkContainer>
               <Nav className="me-auto">
-                <Link to="/panier" className="nav-link">
+                <Link to="/cart" className="nav-link">
                   Panier
                   {panier.eltPanier.length > 0 && (
                     <Badge pill bg="danger">
@@ -39,7 +40,8 @@ function App() {
           <Container className="mt-4">
             <Routes>
               <Route path="/product/:slug" element={<ProductScreen />} />
-              <Route path="/panier" element={<CartScreen />} />
+              <Route path="/cart" element={<CartScreen />} />
+              <Route path="/signin" element={<SigninScreen />} />
               <Route path="/" element={<HomeScreen />} />
             </Routes>
           </Container>

@@ -1,7 +1,23 @@
+import bcrypt from 'bcryptjs';
 const data = {
+  users: [
+    {
+      name: 'Jean',
+      email: 'admin@example.com',
+      password: bcrypt.hashSync('123456789'),
+      isAdmin: true,
+    },
+    {
+      name: 'ted',
+      email: 'user@example.com',
+      password: bcrypt.hashSync('123456789'),
+      isAdmin: false,
+    },
+  ],
+
   products: [
     {
-      _id: '1',
+      //_id: '1',
       name: 'Nike slime Shirt',
       slug: 'nike-slime-shirt',
       category: 'Shirts',
@@ -14,7 +30,7 @@ const data = {
       description: 'high quality product',
     },
     {
-      _id: '2',
+      //_id: '2',
       name: 'Puma slime Shirt',
       slug: 'puma-slime-shirt',
       category: 'Shirts',
@@ -27,7 +43,7 @@ const data = {
       description: 'high quality product',
     },
     {
-      _id: '3',
+      //_id: '3',
       name: 'Adidas slime Shirt',
       slug: 'adidas-slime-shirt',
       category: 'Shirts',
@@ -40,7 +56,7 @@ const data = {
       description: 'high quality product',
     },
     {
-      _id: '4',
+      //_id: '4',
       name: 'Esprit slime Shirt',
       slug: 'esprit-slime-shirt',
       category: 'Shirts',

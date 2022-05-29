@@ -69,7 +69,7 @@ function ProductScreen() {
       return;
     }
     ctxDispatch({ type: CARD_ADD_ITEM, payload: { ...product, quantity } });
-    navigate('/panier');
+    navigate('/cart');
   };
   return loading ? (
     <LoadingBox />
